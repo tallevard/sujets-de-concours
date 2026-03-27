@@ -4,78 +4,221 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title>Fiches Exercices Concours</title>
-    
-<script>
-window.MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']],
-    displayMath: [['$$', '$$'], ['\\[', '\\]']]
-  },
-  svg: {
-    fontCache: 'global'
-  }
-};
-</script>
 
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
     <style>
         body {
             font-family: sans-serif;
-            margin: 0; padding: 10px;
+            margin: 0;
+            padding: 10px;
             background: #f8f9fa;
         }
+
+        .filters {
+            margin: 1em;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 14px;
+            align-items: center;
+        }
+
+        .filters label {
+            font-weight: 700;
+        }
+
+        .filters select {
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 1px solid #cfd6df;
+            background: white;
+            max-width: 100%;
+        }
+
         .fiche {
             background: #fff;
-            border-radius: 8px; padding: 15px; margin: 10px auto;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px auto;
             max-width: 800px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+
+        .fiche h2 {
+            margin-top: 0.1em;
+            margin-bottom: 0.5em;
+            font-size: 1.2rem;
+            line-height: 1.25;
+        }
+
+        .descriptif-court {
+            line-height: 1.45;
+        }
+
         button {
-            background: #007BFF; color: white; border: none;
-            padding: 6px 12px; border-radius: 5px; cursor: pointer;
+            background: #007BFF;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
             margin-top: 8px;
         }
-        .detail { display: none; margin-top: 10px; border-top: 1px solid #eee; padding-top: 8px; }
-        mjx-container, svg { max-width: 100%; overflow-x: auto; }
+
+        .detail {
+            display: none;
+            margin-top: 10px;
+            border-top: 1px solid #eee;
+            padding-top: 8px;
+        }
+
+        .meta-bloc {
+            margin-top: 12px;
+            padding: 10px 12px;
+            background: #f6f8fb;
+            border: 1px solid #e3e8ef;
+            border-radius: 10px;
+        }
+
+        .meta-titre {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .chapitre-item {
+            margin-bottom: 10px;
+            line-height: 1.45;
+        }
+
+        .chapitre-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .chapitre-nom {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: #1f3b5b;
+        }
+
+        .notions-liste {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .notion-tag {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background: #e9f2ff;
+            color: #174a8b;
+            font-size: 0.88rem;
+            white-space: normal;
+            line-height: 1.3;
+        }
+
+        .infos-fiche {
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+
+        .liens-fiche {
+            margin-top: 8px;
+        }
+
+        .liens-fiche a {
+            text-decoration: none;
+        }
+
+        mjx-container, svg {
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 8px;
+            }
+
+            .filters {
+                margin: 0.8em;
+                display: block;
+            }
+
+            .filters > span,
+            .filters > label,
+            .filters > select {
+                display: block;
+                width: 100%;
+                margin-bottom: 8px;
+            }
+
+            .fiche {
+                padding: 12px;
+                border-radius: 10px;
+            }
+
+            .fiche h2 {
+                font-size: 1.05rem;
+            }
+
+            .notion-tag {
+                font-size: 0.82rem;
+                padding: 4px 7px;
+            }
+        }
     </style>
 </head>
 <body>
 
+<div class="filters">
+    <label for="concoursSelect">Concours :</label>
+    <select id="concoursSelect">
+        <option value="">-- Tous les concours --</option>
+    </select>
 
-<div style="margin: 1em;">
-  
-  <label for="concoursSelect"><strong>Concours :</strong></label>
-  <select id="concoursSelect">
-    <option value="">-- Tous les concours --</option>
-  </select>
-  <label for="chapitreSelect" style="margin-left:1em;"><strong>Chapitre :</strong></label>
-  <select id="chapitreSelect">
-    <option value="">-- Choisir un chapitre --</option>
-  </select>
+    <label for="chapitreSelect">Chapitre :</label>
+    <select id="chapitreSelect">
+        <option value="">-- Choisir un chapitre --</option>
+    </select>
 
-  <label for="notionSelect" style="margin-left:1em;"><strong>Notion :</strong></label>
-  <select id="notionSelect" disabled>
-    <option value="">-- Choisir une notion --</option>
-  </select>
+    <label for="notionSelect">Notion :</label>
+    <select id="notionSelect" disabled>
+        <option value="">-- Choisir une notion --</option>
+    </select>
 </div>
 
 <div id="container"></div>
 
-
 <script>
-// Fonction de gestion affichage détails
-function toggleDetail(btn){
-    let d = btn.nextElementSibling;
-    if(d.style.display === "block"){
-        d.style.display = "none"; btn.textContent = "Afficher les détails";
-    }else{
-        d.style.display = "block"; btn.textContent = "Masquer les détails";
+function toggleDetail(btn) {
+    const d = btn.nextElementSibling;
+    if (d.style.display === "block") {
+        d.style.display = "none";
+        btn.textContent = "Afficher les détails";
+    } else {
+        d.style.display = "block";
+        btn.textContent = "Masquer les détails";
         MathJax.typesetPromise();
     }
 }
 
-// Chargement CSV robuste
-async function loadCSV(url){
+async function loadCSV(url) {
     const res = await fetch(url, { cache: "no-store" });
     const text = await res.text();
     const lines = text.trim().split('\n');
@@ -83,218 +226,308 @@ async function loadCSV(url){
 
     return lines.map(line => {
         let entries = [];
-        let entry = '', inQuotes = false;
-        for(let char of line){
-            if(char === '"' && !inQuotes){ inQuotes = true; continue; }
-            if(char === '"' && inQuotes){ inQuotes = false; continue; }
-            if(char === '§'){ continue; }
-            if(char === ',' && !inQuotes){ entries.push(entry.trim()); entry=''; continue; }
+        let entry = '';
+        let inQuotes = false;
+
+        for (let char of line) {
+            if (char === '"' && !inQuotes) {
+                inQuotes = true;
+                continue;
+            }
+            if (char === '"' && inQuotes) {
+                inQuotes = false;
+                continue;
+            }
+            if (char === '§') {
+                continue;
+            }
+            if (char === ',' && !inQuotes) {
+                entries.push(entry.trim());
+                entry = '';
+                continue;
+            }
             entry += char;
         }
+
         entries.push(entry.trim());
+
         const obj = {};
-        headers.forEach((h,i)=>obj[h.trim()]=entries[i]);
+        headers.forEach((h, i) => obj[h.trim()] = entries[i] || '');
         return obj;
     });
 }
 
-function generateHTML(data){
+function extractConcoursList(fiches) {
+    return [...new Set(fiches.map(f => f.concours).filter(Boolean))].sort();
+}
+
+function populateConcoursSelect(concoursList) {
+    const select = document.getElementById('concoursSelect');
+    select.innerHTML = '<option value="">-- Tous les concours --</option>';
+
+    concoursList.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.textContent = c;
+        select.appendChild(opt);
+    });
+}
+
+function extractChapitresMap(fiches) {
+    const map = {};
+
+    fiches.forEach(fiche => {
+        if (!fiche.Chapitres) return;
+
+        fiche.Chapitres.split(';').forEach(entry => {
+            const [chap, notions] = entry.split(':');
+            if (!chap) return;
+
+            const chapTrim = chap.trim();
+            if (!chapTrim) return;
+
+            if (!map[chapTrim]) {
+                map[chapTrim] = new Set();
+            }
+
+            if (notions) {
+                notions.split(',')
+                    .map(n => n.trim())
+                    .filter(Boolean)
+                    .forEach(n => map[chapTrim].add(n));
+            }
+        });
+    });
+
+    for (const k in map) {
+        map[k] = Array.from(map[k]).sort();
+    }
+
+    return map;
+}
+
+function populateChapitreSelect(chapitresMap) {
+    const select = document.getElementById('chapitreSelect');
+    select.innerHTML = '<option value="">-- Choisir un chapitre --</option>';
+
+    Object.keys(chapitresMap).sort().forEach(chap => {
+        const opt = document.createElement('option');
+        opt.value = chap;
+        opt.textContent = chap;
+        select.appendChild(opt);
+    });
+}
+
+function populateNotionSelect(notions) {
+    const select = document.getElementById('notionSelect');
+    select.innerHTML = '<option value="">-- Choisir une notion --</option>';
+
+    notions.forEach(notion => {
+        const opt = document.createElement('option');
+        opt.value = notion;
+        opt.textContent = notion;
+        select.appendChild(opt);
+    });
+
+    select.disabled = false;
+}
+
+function resetNotionSelect() {
+    const select = document.getElementById('notionSelect');
+    select.innerHTML = '<option value="">-- Choisir une notion --</option>';
+    select.disabled = true;
+}
+
+function buildChapitresHTML(chapitresRaw) {
+    if (!chapitresRaw || !chapitresRaw.trim()) {
+        return '';
+    }
+
+    const blocs = chapitresRaw
+        .split(';')
+        .map(entry => entry.trim())
+        .filter(Boolean)
+        .map(entry => {
+            const [chapitre, notions] = entry.split(':');
+            if (!chapitre) return '';
+
+            const chapitreNom = chapitre.trim();
+
+            let notionsHTML = '';
+            if (notions && notions.trim()) {
+                const tags = notions
+                    .split(',')
+                    .map(n => n.trim())
+                    .filter(Boolean)
+                    .map(n => `<span class="notion-tag">${n}</span>`)
+                    .join('');
+
+                notionsHTML = `<div class="notions-liste">${tags}</div>`;
+            } else {
+                notionsHTML = `<div class="notions-liste"></div>`;
+            }
+
+            return `
+                <div class="chapitre-item">
+                    <span class="chapitre-nom">${chapitreNom}</span>
+                    ${notionsHTML}
+                </div>
+            `;
+        })
+        .join('');
+
+    if (!blocs) return '';
+
+    return `
+        <div class="meta-bloc">
+            <div class="meta-titre">Chapitres abordés</div>
+            ${blocs}
+        </div>
+    `;
+}
+
+function generateHTML(data) {
     const cont = document.getElementById('container');
-    data.forEach(fiche=>{
+    cont.innerHTML = '';
+
+    data.forEach(fiche => {
         const el = document.createElement('div');
         el.className = 'fiche';
 
         let detailHTML = '<i>Aucun descriptif détaillé fourni.</i>';
-        if (fiche.descriptif_detaille.trim()) {
-            const items = fiche.descriptif_detaille.split('\\item').map(item => item.replace(/^\\S|§/g, '').trim()).filter(item => item);
-            detailHTML = '<ul>' + items.map(item => `<li>${item}</li>`).join('') + '</ul>';
+        if (fiche.descriptif_detaille && fiche.descriptif_detaille.trim()) {
+            const items = fiche.descriptif_detaille
+                .split('\\item')
+                .map(item => item.replace(/^\\S|§/g, '').trim())
+                .filter(Boolean);
+
+            if (items.length > 0) {
+                detailHTML = '<ul>' + items.map(item => `<li>${item}</li>`).join('') + '</ul>';
+            }
         }
 
+        const chapitresHTML = buildChapitresHTML(fiche.Chapitres || '');
+
         let liensHTML = '';
-        if (fiche.lien_sujet.trim()) {
-            liensHTML += `<a href="${fiche.lien_sujet}" target="_blank">📄 Sujet</a>`;
+        if (fiche.lien_sujet && fiche.lien_sujet.trim()) {
+            liensHTML += `<a href="${fiche.lien_sujet}" target="_blank" rel="noopener noreferrer">📄 Sujet</a>`;
         }
-        if (fiche.lien_corrige.trim()) {
-            liensHTML += ` | <a href="${fiche.lien_corrige}" target="_blank">✅ Corrigé</a>`;
+        if (fiche.lien_corrige && fiche.lien_corrige.trim()) {
+            liensHTML += `${liensHTML ? ' | ' : ''}<a href="${fiche.lien_corrige}" target="_blank" rel="noopener noreferrer">✅ Corrigé</a>`;
         }
 
         el.innerHTML = `
-        <h2 style="margin-top: 0.1em;">${fiche.epreuve} - ${fiche.exercice}</h2>
-        <div>${fiche.descriptif_court}</div>
-        <button onclick="toggleDetail(this)">Afficher les détails</button>
-        <div class="detail">
-          ${detailHTML}
-        </div>
-        <div><strong>Intérêt :</strong> ${fiche.interet}</div>
-        <div><strong>Difficulté :</strong> ${fiche.difficulte}</div>
-        <div><strong>Rencontré lors de… :</strong> ${fiche.rencontre}</div>
-        <div style="margin-top:8px;">${liensHTML}</div>
+            <h2>${fiche.epreuve || ''} - ${fiche.exercice || ''}</h2>
+            <div class="descriptif-court">${fiche.descriptif_court || ''}</div>
+            ${chapitresHTML}
+            <button onclick="toggleDetail(this)">Afficher les détails</button>
+            <div class="detail">
+                ${detailHTML}
+            </div>
+            <div class="infos-fiche"><strong>Intérêt :</strong> ${fiche.interet || ''}</div>
+            <div class="infos-fiche"><strong>Difficulté :</strong> ${fiche.difficulte || ''}</div>
+            <div class="infos-fiche"><strong>Rencontré lors de… :</strong> ${fiche.rencontre || ''}</div>
+            <div class="liens-fiche">${liensHTML}</div>
         `;
+
         cont.appendChild(el);
     });
+
     MathJax.typesetPromise();
 }
 
-
-</script>
-
-
-<script>
-function extractConcoursList(fiches) {
-  return [...new Set(fiches.map(f => f.concours).filter(Boolean))].sort();
-}
-
-function populateConcoursSelect(concoursList) {
-  const select = document.getElementById('concoursSelect');
-  select.innerHTML = '<option value="">-- Tous les concours --</option>';
-  concoursList.forEach(c => {
-    const opt = document.createElement('option');
-    opt.value = c;
-    opt.textContent = c;
-    select.appendChild(opt);
-  });
-}
-
-function extractChapitresMap(fiches) {
-  const map = {};
-  fiches.forEach(fiche => {
-    if (!fiche.Chapitres) return;
-    fiche.Chapitres.split(';').forEach(entry => {
-      const [chap, notions] = entry.split(':');
-      if (!chap || !notions) return;
-      const chapTrim = chap.trim();
-      const notionsList = notions.split(',').map(n => n.trim());
-      if (!map[chapTrim]) map[chapTrim] = new Set();
-      notionsList.forEach(n => map[chapTrim].add(n));
-    });
-  });
-  for (let k in map) map[k] = Array.from(map[k]).sort();
-  return map;
-}
-
-function populateChapitreSelect(chapitresMap) {
-  const select = document.getElementById('chapitreSelect');
-  select.innerHTML = '<option value="">-- Choisir un chapitre --</option>';
-  Object.keys(chapitresMap).sort().forEach(chap => {
-    const opt = document.createElement('option');
-    opt.value = chap;
-    opt.textContent = chap;
-    select.appendChild(opt);
-  });
-}
-
-function populateNotionSelect(notions) {
-  const select = document.getElementById('notionSelect');
-  select.innerHTML = '<option value="">-- Choisir une notion --</option>';
-  notions.forEach(notion => {
-    const opt = document.createElement('option');
-    opt.value = notion;
-    opt.textContent = notion;
-    select.appendChild(opt);
-  });
-  select.disabled = false;
-}
-
-function resetNotionSelect() {
-  const select = document.getElementById('notionSelect');
-  select.innerHTML = '<option value="">-- Choisir une notion --</option>';
-  select.disabled = true;
-}
-
 async function loadCSVAndBuildFilters(url) {
-  const fiches = await loadCSV(url);
+    const fiches = await loadCSV(url);
 
-  const concoursSelect = document.getElementById('concoursSelect');
-  const chapitreSelect = document.getElementById('chapitreSelect');
-  const notionSelect = document.getElementById('notionSelect');
-  const container = document.getElementById('container');
+    const concoursSelect = document.getElementById('concoursSelect');
+    const chapitreSelect = document.getElementById('chapitreSelect');
+    const notionSelect = document.getElementById('notionSelect');
 
-  populateConcoursSelect(extractConcoursList(fiches));
+    populateConcoursSelect(extractConcoursList(fiches));
 
-  function getFichesConcours() {
-    const concours = concoursSelect.value;
-    if (!concours) return fiches;
-    return fiches.filter(f => f.concours === concours);
-  }
-
-  function updateChapitreOptions() {
-    const fichesConcours = getFichesConcours();
-    const chapitreMap = extractChapitresMap(fichesConcours);
-    populateChapitreSelect(chapitreMap);
-    resetNotionSelect();
-    return chapitreMap;
-  }
-
-  function applyAllFilters() {
-    const concours = concoursSelect.value;
-    const chapitre = chapitreSelect.value;
-    const notion = notionSelect.value;
-
-    let filtered = [...fiches];
-
-    if (concours) {
-      filtered = filtered.filter(f => f.concours === concours);
+    function getFichesConcours() {
+        const concours = concoursSelect.value;
+        if (!concours) return fiches;
+        return fiches.filter(f => f.concours === concours);
     }
 
-    if (chapitre) {
-      filtered = filtered.filter(fiche => {
-        if (!fiche.Chapitres) return false;
-        return fiche.Chapitres.split(';').some(entry => {
-          const [chap] = entry.split(':');
-          return chap && chap.trim() === chapitre;
-        });
-      });
+    function updateChapitreOptions() {
+        const fichesConcours = getFichesConcours();
+        const chapitreMap = extractChapitresMap(fichesConcours);
+        populateChapitreSelect(chapitreMap);
+        resetNotionSelect();
+        return chapitreMap;
     }
 
-    if (chapitre && notion) {
-      filtered = filtered.filter(fiche => {
-        if (!fiche.Chapitres) return false;
-        return fiche.Chapitres.split(';').some(entry => {
-          const [chap, notions] = entry.split(':');
-          if (!chap || !notions) return false;
-          if (chap.trim() !== chapitre) return false;
-          return notions.split(',').map(n => n.trim()).includes(notion);
-        });
-      });
+    function applyAllFilters() {
+        const concours = concoursSelect.value;
+        const chapitre = chapitreSelect.value;
+        const notion = notionSelect.value;
+
+        let filtered = [...fiches];
+
+        if (concours) {
+            filtered = filtered.filter(f => f.concours === concours);
+        }
+
+        if (chapitre) {
+            filtered = filtered.filter(fiche => {
+                if (!fiche.Chapitres) return false;
+                return fiche.Chapitres.split(';').some(entry => {
+                    const [chap] = entry.split(':');
+                    return chap && chap.trim() === chapitre;
+                });
+            });
+        }
+
+        if (chapitre && notion) {
+            filtered = filtered.filter(fiche => {
+                if (!fiche.Chapitres) return false;
+                return fiche.Chapitres.split(';').some(entry => {
+                    const [chap, notions] = entry.split(':');
+                    if (!chap || !notions) return false;
+                    if (chap.trim() !== chapitre) return false;
+                    return notions.split(',').map(n => n.trim()).includes(notion);
+                });
+            });
+        }
+
+        generateHTML(filtered);
     }
 
-    container.innerHTML = '';
-    generateHTML(filtered);
-  }
+    concoursSelect.addEventListener('change', () => {
+        chapitreSelect.value = '';
+        notionSelect.value = '';
+        updateChapitreOptions();
+        applyAllFilters();
+    });
 
-  concoursSelect.addEventListener('change', () => {
-    chapitreSelect.value = '';
-    notionSelect.value = '';
+    chapitreSelect.addEventListener('change', () => {
+        const chapitre = chapitreSelect.value;
+        const fichesConcours = getFichesConcours();
+        const chapitreMap = extractChapitresMap(fichesConcours);
+
+        if (!chapitre) {
+            resetNotionSelect();
+            applyAllFilters();
+            return;
+        }
+
+        populateNotionSelect(chapitreMap[chapitre] || []);
+        notionSelect.value = '';
+        applyAllFilters();
+    });
+
+    notionSelect.addEventListener('change', () => {
+        applyAllFilters();
+    });
+
     updateChapitreOptions();
     applyAllFilters();
-  });
-
-  chapitreSelect.addEventListener('change', () => {
-    const chapitre = chapitreSelect.value;
-    const fichesConcours = getFichesConcours();
-    const chapitreMap = extractChapitresMap(fichesConcours);
-
-    if (!chapitre) {
-      resetNotionSelect();
-      applyAllFilters();
-      return;
-    }
-
-    populateNotionSelect(chapitreMap[chapitre] || []);
-    notionSelect.value = '';
-    applyAllFilters();
-  });
-
-  notionSelect.addEventListener('change', () => {
-    applyAllFilters();
-  });
-
-  updateChapitreOptions();
-  applyAllFilters();
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  loadCSVAndBuildFilters('fiches.csv');
+    loadCSVAndBuildFilters('fiches.csv');
 });
 </script>
 
