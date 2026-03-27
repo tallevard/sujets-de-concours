@@ -550,11 +550,12 @@ function buildLinksHTML(fiche) {
     return links.join(' | ');
 }
 
+
 function generateHTML(data) {
     const cont = document.getElementById('container');
     const resultsInfo = document.getElementById('resultsInfo');
-    cont.innerHTML = '';
 
+    cont.innerHTML = '';
     resultsInfo.textContent = `${data.length} sujet${data.length > 1 ? 's' : ''}`;
 
     if (data.length === 0) {
@@ -567,24 +568,38 @@ function generateHTML(data) {
         el.className = 'fiche';
 
         const titre = `${fiche.epreuve || ''}${fiche.exercice ? ' - ' + fiche.exercice : ''}`;
+
         const detailHTML = buildDetailHTML(fiche.descriptif_detaille || '');
         const chapitresHTML = buildChapitresHTML(fiche.Chapitres || '');
         const liensHTML = buildLinksHTML(fiche);
 
         el.innerHTML = `
             <h2>${escapeHTML(titre)}</h2>
-            <div class="descriptif-court">${escapeHTML(fiche.descriptif_court || '')}</div>
-            ${chapitresHTML}
+
+            <div class="descriptif-court">
+                ${escapeHTML(fiche.descriptif_court || '')}
+            </div>
+
             <div class="actions">
+                <button onclick="toggleChapitres(this)">Afficher les chapitres</button>
                 <button onclick="toggleDetail(this)">Afficher les détails</button>
             </div>
+
+            <div class="chapitres-detail">
+                ${chapitresHTML}
+            </div>
+
             <div class="detail">
                 ${detailHTML}
             </div>
+
             <div class="infos-fiche"><strong>Intérêt :</strong> ${escapeHTML(fiche.interet || '')}</div>
             <div class="infos-fiche"><strong>Difficulté :</strong> ${escapeHTML(fiche.difficulte || '')}</div>
             <div class="infos-fiche"><strong>Rencontré lors de… :</strong> ${escapeHTML(fiche.rencontre || '')}</div>
-            <div class="liens-fiche">${liensHTML}</div>
+
+            <div class="liens-fiche">
+                ${liensHTML}
+            </div>
         `;
 
         cont.appendChild(el);
