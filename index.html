@@ -76,7 +76,7 @@ function toggleDetail(btn){
 
 // Chargement CSV robuste
 async function loadCSV(url){
-    const res = await fetch(url);
+    const res = await fetch(url, { cache: "no-store" });
     const text = await res.text();
     const lines = text.trim().split('\n');
     const headers = lines.shift().split(',');
