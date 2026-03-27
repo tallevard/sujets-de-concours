@@ -140,13 +140,13 @@ function generateHTML(data){
 
 
 <script>
-
 function extractConcoursList(fiches) {
   return [...new Set(fiches.map(f => f.concours).filter(Boolean))].sort();
 }
 
 function populateConcoursSelect(concoursList) {
   const select = document.getElementById('concoursSelect');
+  select.innerHTML = '<option value="">-- Tous les concours --</option>';
   concoursList.forEach(c => {
     const opt = document.createElement('option');
     opt.value = c;
@@ -174,6 +174,7 @@ function extractChapitresMap(fiches) {
 
 function populateChapitreSelect(chapitresMap) {
   const select = document.getElementById('chapitreSelect');
+  select.innerHTML = '<option value="">-- Choisir un chapitre --</option>';
   Object.keys(chapitresMap).sort().forEach(chap => {
     const opt = document.createElement('option');
     opt.value = chap;
@@ -181,7 +182,6 @@ function populateChapitreSelect(chapitresMap) {
     select.appendChild(opt);
   });
 }
-    
 
 function populateNotionSelect(notions) {
   const select = document.getElementById('notionSelect');
@@ -195,30 +195,40 @@ function populateNotionSelect(notions) {
   select.disabled = false;
 }
 
-function filterFiches(fiches, chapitre, notion) {
-  return fiches.filter(fiche => {
-    if (!fiche.Chapitres) return false;
-    return fiche.Chapitres.split(';').some(entry => {
-      const [chap, notions] = entry.split(':');
-      if (!chap || !notions) return false;
-      if (chap.trim() !== chapitre) return false;
-      return notions.split(',').map(n => n.trim()).includes(notion);
-    });
-  });
+function resetNotionSelect() {
+  const select = document.getElementById('notionSelect');
+  select.innerHTML = '<option value="">-- Choisir une notion --</option>';
+  select.disabled = true;
 }
 
 async function loadCSVAndBuildFilters(url) {
-  let currentFiches = [];
-
   const fiches = await loadCSV(url);
-  
-  const concoursList = extractConcoursList(fiches);
-  populateConcoursSelect(concoursList);
+
+  const concoursSelect = document.getElementById('concoursSelect');
+  const chapitreSelect = document.getElementById('chapitreSelect');
+  const notionSelect = document.getElementById('notionSelect');
+  const container = document.getElementById('container');
+
+  populateConcoursSelect(extractConcoursList(fiches));
+
+  function getFichesConcours() {
+    const concours = concoursSelect.value;
+    if (!concours) return fiches;
+    return fiches.filter(f => f.concours === concours);
+  }
+
+  function updateChapitreOptions() {
+    const fichesConcours = getFichesConcours();
+    const chapitreMap = extractChapitresMap(fichesConcours);
+    populateChapitreSelect(chapitreMap);
+    resetNotionSelect();
+    return chapitreMap;
+  }
 
   function applyAllFilters() {
-    const chapitre = document.getElementById('chapitreSelect').value;
-    const notion = document.getElementById('notionSelect').value;
-    const concours = document.getElementById('concoursSelect').value;
+    const concours = concoursSelect.value;
+    const chapitre = chapitreSelect.value;
+    const notion = notionSelect.value;
 
     let filtered = [...fiches];
 
@@ -248,50 +258,39 @@ async function loadCSVAndBuildFilters(url) {
       });
     }
 
-    document.getElementById('container').innerHTML = '';
+    container.innerHTML = '';
     generateHTML(filtered);
   }
 
-  document.getElementById('concoursSelect').addEventListener('change', applyAllFilters);
-
-  const chapitreMap = extractChapitresMap(fiches);
-  populateChapitreSelect(chapitreMap);
-
-  document.getElementById('chapitreSelect').addEventListener('change', e => {
-  const chapitre = e.target.value;
-  const notionSelect = document.getElementById('notionSelect');
-  if (chapitre === '') {
-    notionSelect.innerHTML = '<option value="">-- Choisir une notion --</option>';
-    notionSelect.disabled = true;
-    document.getElementById('container').innerHTML = '';
-    generateHTML(fiches);
-    return;
-  }
-  // afficher toutes les fiches contenant ce chapitre, sans filtrer par notion
-  populateNotionSelect(chapitreMap[chapitre]);
-  const filtered = fiches.filter(fiche => {
-    if (!fiche.Chapitres) return false;
-    return fiche.Chapitres.split(';').some(entry => {
-      const [chap] = entry.split(':');
-      return chap && chap.trim() === chapitre;
-    });
+  concoursSelect.addEventListener('change', () => {
+    chapitreSelect.value = '';
+    notionSelect.value = '';
+    updateChapitreOptions();
+    applyAllFilters();
   });
-  document.getElementById('container').innerHTML = '';
-  generateHTML(filtered);
-});
 
+  chapitreSelect.addEventListener('change', () => {
+    const chapitre = chapitreSelect.value;
+    const fichesConcours = getFichesConcours();
+    const chapitreMap = extractChapitresMap(fichesConcours);
 
-  document.getElementById('notionSelect').addEventListener('change', e => {
-    const chapitre = document.getElementById('chapitreSelect').value;
-    const notion = e.target.value;
-    if (chapitre && notion) {
-      const filtered = filterFiches(fiches, chapitre, notion);
-      document.getElementById('container').innerHTML = '';
-      generateHTML(filtered);
+    if (!chapitre) {
+      resetNotionSelect();
+      applyAllFilters();
+      return;
     }
+
+    populateNotionSelect(chapitreMap[chapitre] || []);
+    notionSelect.value = '';
+    applyAllFilters();
   });
 
-  generateHTML(fiches);
+  notionSelect.addEventListener('change', () => {
+    applyAllFilters();
+  });
+
+  updateChapitreOptions();
+  applyAllFilters();
 }
 
 window.addEventListener('DOMContentLoaded', () => {
