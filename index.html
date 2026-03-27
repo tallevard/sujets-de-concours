@@ -297,7 +297,8 @@ function cleanCell(value) {
 }
 
 function toggleDetail(btn) {
-    const detail = btn.nextElementSibling;
+    const fiche = btn.closest('.fiche');
+    const detail = fiche.querySelector('.detail');
     const isOpen = detail.style.display === 'block';
 
     detail.style.display = isOpen ? 'none' : 'block';
