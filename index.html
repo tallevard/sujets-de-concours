@@ -134,6 +134,11 @@
             color: #1f3b5b;
         }
 
+	.chapitres-detail {
+    	    display: none;
+     	    margin-top: 10px;
+	}
+
         .notions-liste {
             display: flex;
             flex-wrap: wrap;
@@ -151,7 +156,10 @@
         }
 
         .actions {
-            margin-top: 10px;
+             margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
         }
 
         button {
@@ -306,6 +314,19 @@ function toggleDetail(btn) {
 
     if (!isOpen) {
         MathJax.typesetPromise([detail]).catch(() => {});
+    }
+}
+
+function toggleChapitres(btn) {
+    const fiche = btn.closest('.fiche');
+    const bloc = fiche.querySelector('.chapitres-detail');
+    const isOpen = bloc.style.display === 'block';
+
+    bloc.style.display = isOpen ? 'none' : 'block';
+    btn.textContent = isOpen ? 'Afficher les chapitres' : 'Masquer les chapitres';
+
+    if (!isOpen) {
+        MathJax.typesetPromise([bloc]).catch(() => {});
     }
 }
 
