@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title>Fiches Exercices Concours</title>
+    <title>Sujets de concours</title>
 
     <script>
     window.MathJax = {
@@ -16,79 +16,99 @@
       }
     };
     </script>
-
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
     <style>
+        :root{
+            --bg: #f8f9fa;
+            --card: #ffffff;
+            --border: #e3e8ef;
+            --muted: #5c6b7a;
+            --text: #1f2933;
+            --primary: #0b6bcb;
+            --primary-soft: #e9f2ff;
+            --chapter-bg: #f6f8fb;
+            --shadow: 0 2px 8px rgba(0,0,0,0.08);
+            --radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
             padding: 10px;
-            background: #f8f9fa;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .page {
+            max-width: 980px;
+            margin: 0 auto;
         }
 
         .filters {
-            margin: 1em;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px 14px;
-            align-items: center;
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 14px;
+            margin: 10px auto 16px auto;
         }
 
-        .filters label {
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .filter-block label {
+            display: block;
             font-weight: 700;
+            margin-bottom: 6px;
         }
 
-        .filters select {
-            padding: 6px 8px;
-            border-radius: 6px;
+        .filter-block select {
+            width: 100%;
+            padding: 9px 10px;
             border: 1px solid #cfd6df;
-            background: white;
-            max-width: 100%;
+            border-radius: 8px;
+            background: #fff;
+            font-size: 0.95rem;
+        }
+
+        .results-info {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-top: 10px;
         }
 
         .fiche {
-            background: #fff;
-            border-radius: 12px;
+            background: var(--card);
+            border-radius: var(--radius);
             padding: 15px;
-            margin: 10px auto;
-            max-width: 800px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 12px auto;
+            box-shadow: var(--shadow);
         }
 
         .fiche h2 {
-            margin-top: 0.1em;
-            margin-bottom: 0.5em;
-            font-size: 1.2rem;
+            margin: 0 0 8px 0;
+            font-size: 1.18rem;
             line-height: 1.25;
         }
 
         .descriptif-court {
-            line-height: 1.45;
-        }
-
-        button {
-            background: #007BFF;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 8px;
-        }
-
-        .detail {
-            display: none;
-            margin-top: 10px;
-            border-top: 1px solid #eee;
-            padding-top: 8px;
+            white-space: pre-line;
+            line-height: 1.5;
+            margin-bottom: 10px;
         }
 
         .meta-bloc {
-            margin-top: 12px;
+            margin-top: 10px;
             padding: 10px 12px;
-            background: #f6f8fb;
-            border: 1px solid #e3e8ef;
+            background: var(--chapter-bg);
+            border: 1px solid var(--border);
             border-radius: 10px;
         }
 
@@ -96,12 +116,11 @@
             font-weight: 700;
             font-size: 0.95rem;
             margin-bottom: 8px;
-            color: #2c3e50;
+            color: #23415f;
         }
 
         .chapitre-item {
             margin-bottom: 10px;
-            line-height: 1.45;
         }
 
         .chapitre-item:last-child {
@@ -125,24 +144,67 @@
             display: inline-block;
             padding: 4px 8px;
             border-radius: 999px;
-            background: #e9f2ff;
+            background: var(--primary-soft);
             color: #174a8b;
             font-size: 0.88rem;
-            white-space: normal;
             line-height: 1.3;
         }
 
-        .infos-fiche {
+        .actions {
             margin-top: 10px;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.92rem;
+        }
+
+        button:hover {
+            filter: brightness(0.96);
+        }
+
+        .detail {
+            display: none;
+            margin-top: 10px;
+            border-top: 1px solid #eee;
+            padding-top: 8px;
+        }
+
+        .detail ul {
+            margin-top: 8px;
+            padding-left: 20px;
+        }
+
+        .detail li {
+            margin-bottom: 8px;
+            line-height: 1.45;
+            white-space: pre-line;
+        }
+
+        .infos-fiche {
+            margin-top: 8px;
             line-height: 1.5;
         }
 
         .liens-fiche {
-            margin-top: 8px;
+            margin-top: 10px;
         }
 
         .liens-fiche a {
             text-decoration: none;
+        }
+
+        .empty-state {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 18px;
+            box-shadow: var(--shadow);
+            color: var(--muted);
         }
 
         mjx-container, svg {
@@ -150,27 +212,17 @@
             overflow-x: auto;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 700px) {
             body {
                 padding: 8px;
             }
 
-            .filters {
-                margin: 0.8em;
-                display: block;
-            }
-
-            .filters > span,
-            .filters > label,
-            .filters > select {
-                display: block;
-                width: 100%;
-                margin-bottom: 8px;
+            .filters-grid {
+                grid-template-columns: 1fr;
             }
 
             .fiche {
                 padding: 12px;
-                border-radius: 10px;
             }
 
             .fiche h2 {
@@ -185,80 +237,183 @@
     </style>
 </head>
 <body>
+<div class="page">
 
-<div class="filters">
-    <label for="concoursSelect">Concours :</label>
-    <select id="concoursSelect">
-        <option value="">-- Tous les concours --</option>
-    </select>
+    <div class="filters">
+        <div class="filters-grid">
+            <div class="filter-block">
+                <label for="concoursSelect">Concours</label>
+                <select id="concoursSelect">
+                    <option value="">-- Tous les concours --</option>
+                </select>
+            </div>
 
-    <label for="chapitreSelect">Chapitre :</label>
-    <select id="chapitreSelect">
-        <option value="">-- Choisir un chapitre --</option>
-    </select>
+            <div class="filter-block">
+                <label for="chapitreSelect">Chapitre</label>
+                <select id="chapitreSelect">
+                    <option value="">-- Choisir un chapitre --</option>
+                </select>
+            </div>
 
-    <label for="notionSelect">Notion :</label>
-    <select id="notionSelect" disabled>
-        <option value="">-- Choisir une notion --</option>
-    </select>
+            <div class="filter-block">
+                <label for="notionSelect">Notion</label>
+                <select id="notionSelect" disabled>
+                    <option value="">-- Choisir une notion --</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="resultsInfo" class="results-info"></div>
+    </div>
+
+    <div id="container"></div>
 </div>
 
-<div id="container"></div>
-
 <script>
+function escapeHTML(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function cleanCell(value) {
+    if (value == null) return '';
+    let s = String(value);
+
+    if (s.charCodeAt(0) === 0xFEFF) {
+        s = s.slice(1);
+    }
+
+    s = s.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+    if (s.startsWith('§') && s.endsWith('§') && s.length >= 2) {
+        s = s.slice(1, -1);
+    }
+
+    return s.trim();
+}
+
 function toggleDetail(btn) {
-    const d = btn.nextElementSibling;
-    if (d.style.display === "block") {
-        d.style.display = "none";
-        btn.textContent = "Afficher les détails";
-    } else {
-        d.style.display = "block";
-        btn.textContent = "Masquer les détails";
-        MathJax.typesetPromise();
+    const detail = btn.nextElementSibling;
+    const isOpen = detail.style.display === 'block';
+
+    detail.style.display = isOpen ? 'none' : 'block';
+    btn.textContent = isOpen ? 'Afficher les détails' : 'Masquer les détails';
+
+    if (!isOpen) {
+        MathJax.typesetPromise([detail]).catch(() => {});
     }
 }
 
 async function loadCSV(url) {
-    const res = await fetch(url, { cache: "no-store" });
+    const fetchUrl = `${url}?v=${Date.now()}`;
+    const res = await fetch(fetchUrl, { cache: 'no-store' });
+    if (!res.ok) {
+        throw new Error(`Impossible de charger ${url} (${res.status})`);
+    }
+
     const text = await res.text();
-    const lines = text.trim().split('\n');
-    const headers = lines.shift().split(',');
 
-    return lines.map(line => {
-        let entries = [];
-        let entry = '';
-        let inQuotes = false;
+    const rows = [];
+    let row = [];
+    let cell = '';
+    let inQuotes = false;
 
-        for (let char of line) {
-            if (char === '"' && !inQuotes) {
-                inQuotes = true;
-                continue;
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const nextChar = text[i + 1];
+
+        if (char === '"') {
+            if (inQuotes && nextChar === '"') {
+                cell += '"';
+                i++;
+            } else {
+                inQuotes = !inQuotes;
             }
-            if (char === '"' && inQuotes) {
-                inQuotes = false;
-                continue;
-            }
-            if (char === '§') {
-                continue;
-            }
-            if (char === ',' && !inQuotes) {
-                entries.push(entry.trim());
-                entry = '';
-                continue;
-            }
-            entry += char;
+            continue;
         }
 
-        entries.push(entry.trim());
+        if (char === ',' && !inQuotes) {
+            row.push(cell);
+            cell = '';
+            continue;
+        }
 
+        if ((char === '\n' || char === '\r') && !inQuotes) {
+            if (char === '\r' && nextChar === '\n') {
+                i++;
+            }
+            row.push(cell);
+            cell = '';
+
+            if (row.some(x => x !== '')) {
+                rows.push(row);
+            }
+            row = [];
+            continue;
+        }
+
+        cell += char;
+    }
+
+    row.push(cell);
+    if (row.some(x => x !== '')) {
+        rows.push(row);
+    }
+
+    if (rows.length === 0) {
+        return [];
+    }
+
+    const headers = rows.shift().map(h => cleanCell(h));
+
+    return rows.map(entries => {
         const obj = {};
-        headers.forEach((h, i) => obj[h.trim()] = entries[i] || '');
+        headers.forEach((h, i) => {
+            obj[h] = cleanCell(entries[i] ?? '');
+        });
         return obj;
     });
 }
 
+function parseChapitres(chapitresRaw) {
+    if (!chapitresRaw || !chapitresRaw.trim()) {
+        return [];
+    }
+
+    return chapitresRaw
+        .split(';')
+        .map(entry => entry.trim())
+        .filter(Boolean)
+        .map(entry => {
+            const idx = entry.indexOf(':');
+
+            if (idx === -1) {
+                return {
+                    chapitre: entry.trim(),
+                    notions: []
+                };
+            }
+
+            const chapitre = entry.slice(0, idx).trim();
+            const notionsRaw = entry.slice(idx + 1).trim();
+
+            const notions = notionsRaw
+                ? notionsRaw.split(',').map(n => n.trim()).filter(Boolean)
+                : [];
+
+            return { chapitre, notions };
+        })
+        .filter(item => item.chapitre);
+}
+
 function extractConcoursList(fiches) {
-    return [...new Set(fiches.map(f => f.concours).filter(Boolean))].sort();
+    return [...new Set(
+        fiches.map(f => (f.concours || '').trim()).filter(Boolean)
+    )].sort((a, b) => a.localeCompare(b, 'fr'));
 }
 
 function populateConcoursSelect(concoursList) {
@@ -277,40 +432,29 @@ function extractChapitresMap(fiches) {
     const map = {};
 
     fiches.forEach(fiche => {
-        if (!fiche.Chapitres) return;
-
-        fiche.Chapitres.split(';').forEach(entry => {
-            const [chap, notions] = entry.split(':');
-            if (!chap) return;
-
-            const chapTrim = chap.trim();
-            if (!chapTrim) return;
-
-            if (!map[chapTrim]) {
-                map[chapTrim] = new Set();
+        parseChapitres(fiche.Chapitres).forEach(({ chapitre, notions }) => {
+            if (!map[chapitre]) {
+                map[chapitre] = new Set();
             }
-
-            if (notions) {
-                notions.split(',')
-                    .map(n => n.trim())
-                    .filter(Boolean)
-                    .forEach(n => map[chapTrim].add(n));
-            }
+            notions.forEach(n => map[chapitre].add(n));
         });
     });
 
-    for (const k in map) {
-        map[k] = Array.from(map[k]).sort();
-    }
+    const out = {};
+    Object.keys(map)
+        .sort((a, b) => a.localeCompare(b, 'fr'))
+        .forEach(k => {
+            out[k] = Array.from(map[k]).sort((a, b) => a.localeCompare(b, 'fr'));
+        });
 
-    return map;
+    return out;
 }
 
 function populateChapitreSelect(chapitresMap) {
     const select = document.getElementById('chapitreSelect');
     select.innerHTML = '<option value="">-- Choisir un chapitre --</option>';
 
-    Object.keys(chapitresMap).sort().forEach(chap => {
+    Object.keys(chapitresMap).forEach(chap => {
         const opt = document.createElement('option');
         opt.value = chap;
         opt.textContent = chap;
@@ -339,101 +483,113 @@ function resetNotionSelect() {
 }
 
 function buildChapitresHTML(chapitresRaw) {
-    if (!chapitresRaw || !chapitresRaw.trim()) {
+    const blocs = parseChapitres(chapitresRaw);
+
+    if (blocs.length === 0) {
         return '';
     }
 
-    const blocs = chapitresRaw
-        .split(';')
-        .map(entry => entry.trim())
-        .filter(Boolean)
-        .map(entry => {
-            const [chapitre, notions] = entry.split(':');
-            if (!chapitre) return '';
+    const html = blocs.map(({ chapitre, notions }) => {
+        const tags = notions.length
+            ? `<div class="notions-liste">${
+                notions.map(n => `<span class="notion-tag">${escapeHTML(n)}</span>`).join('')
+              }</div>`
+            : '<div class="notions-liste"></div>';
 
-            const chapitreNom = chapitre.trim();
-
-            let notionsHTML = '';
-            if (notions && notions.trim()) {
-                const tags = notions
-                    .split(',')
-                    .map(n => n.trim())
-                    .filter(Boolean)
-                    .map(n => `<span class="notion-tag">${n}</span>`)
-                    .join('');
-
-                notionsHTML = `<div class="notions-liste">${tags}</div>`;
-            } else {
-                notionsHTML = `<div class="notions-liste"></div>`;
-            }
-
-            return `
-                <div class="chapitre-item">
-                    <span class="chapitre-nom">${chapitreNom}</span>
-                    ${notionsHTML}
-                </div>
-            `;
-        })
-        .join('');
-
-    if (!blocs) return '';
+        return `
+            <div class="chapitre-item">
+                <span class="chapitre-nom">${escapeHTML(chapitre)}</span>
+                ${tags}
+            </div>
+        `;
+    }).join('');
 
     return `
         <div class="meta-bloc">
             <div class="meta-titre">Chapitres abordés</div>
-            ${blocs}
+            ${html}
         </div>
     `;
 }
 
+function buildDetailHTML(raw) {
+    if (!raw || !raw.trim()) {
+        return '<i>Aucun descriptif détaillé fourni.</i>';
+    }
+
+    if (raw.includes('\\item')) {
+        const items = raw
+            .split('\\item')
+            .map(item => item.trim())
+            .filter(Boolean);
+
+        if (items.length > 0) {
+            return '<ul>' + items.map(item => `<li>${escapeHTML(item)}</li>`).join('') + '</ul>';
+        }
+    }
+
+    return `<div style="white-space: pre-line;">${escapeHTML(raw)}</div>`;
+}
+
+function buildLinksHTML(fiche) {
+    const links = [];
+
+    if ((fiche.lien_sujet || '').trim()) {
+        links.push(
+            `<a href="${escapeHTML(fiche.lien_sujet)}" target="_blank" rel="noopener noreferrer">📄 Sujet</a>`
+        );
+    }
+
+    if ((fiche.lien_corrige || '').trim()) {
+        links.push(
+            `<a href="${escapeHTML(fiche.lien_corrige)}" target="_blank" rel="noopener noreferrer">✅ Corrigé</a>`
+        );
+    }
+
+    return links.join(' | ');
+}
+
 function generateHTML(data) {
     const cont = document.getElementById('container');
+    const resultsInfo = document.getElementById('resultsInfo');
     cont.innerHTML = '';
+
+    resultsInfo.textContent = `${data.length} sujet${data.length > 1 ? 's' : ''}`;
+
+    if (data.length === 0) {
+        cont.innerHTML = '<div class="empty-state">Aucun sujet ne correspond aux filtres sélectionnés.</div>';
+        return;
+    }
 
     data.forEach(fiche => {
         const el = document.createElement('div');
         el.className = 'fiche';
 
-        let detailHTML = '<i>Aucun descriptif détaillé fourni.</i>';
-        if (fiche.descriptif_detaille && fiche.descriptif_detaille.trim()) {
-            const items = fiche.descriptif_detaille
-                .split('\\item')
-                .map(item => item.replace(/^\\S|§/g, '').trim())
-                .filter(Boolean);
-
-            if (items.length > 0) {
-                detailHTML = '<ul>' + items.map(item => `<li>${item}</li>`).join('') + '</ul>';
-            }
-        }
-
+        const titre = `${fiche.epreuve || ''}${fiche.exercice ? ' - ' + fiche.exercice : ''}`;
+        const detailHTML = buildDetailHTML(fiche.descriptif_detaille || '');
         const chapitresHTML = buildChapitresHTML(fiche.Chapitres || '');
-
-        let liensHTML = '';
-        if (fiche.lien_sujet && fiche.lien_sujet.trim()) {
-            liensHTML += `<a href="${fiche.lien_sujet}" target="_blank" rel="noopener noreferrer">📄 Sujet</a>`;
-        }
-        if (fiche.lien_corrige && fiche.lien_corrige.trim()) {
-            liensHTML += `${liensHTML ? ' | ' : ''}<a href="${fiche.lien_corrige}" target="_blank" rel="noopener noreferrer">✅ Corrigé</a>`;
-        }
+        const liensHTML = buildLinksHTML(fiche);
 
         el.innerHTML = `
-            <h2>${fiche.epreuve || ''} - ${fiche.exercice || ''}</h2>
-            <div class="descriptif-court">${fiche.descriptif_court || ''}</div>
+            <h2>${escapeHTML(titre)}</h2>
+            <div class="descriptif-court">${escapeHTML(fiche.descriptif_court || '')}</div>
             ${chapitresHTML}
-            <button onclick="toggleDetail(this)">Afficher les détails</button>
+            <div class="actions">
+                <button onclick="toggleDetail(this)">Afficher les détails</button>
+            </div>
             <div class="detail">
                 ${detailHTML}
             </div>
-            <div class="infos-fiche"><strong>Intérêt :</strong> ${fiche.interet || ''}</div>
-            <div class="infos-fiche"><strong>Difficulté :</strong> ${fiche.difficulte || ''}</div>
-            <div class="infos-fiche"><strong>Rencontré lors de… :</strong> ${fiche.rencontre || ''}</div>
+            <div class="infos-fiche"><strong>Intérêt :</strong> ${escapeHTML(fiche.interet || '')}</div>
+            <div class="infos-fiche"><strong>Difficulté :</strong> ${escapeHTML(fiche.difficulte || '')}</div>
+            <div class="infos-fiche"><strong>Rencontré lors de… :</strong> ${escapeHTML(fiche.rencontre || '')}</div>
             <div class="liens-fiche">${liensHTML}</div>
         `;
 
         cont.appendChild(el);
     });
 
-    MathJax.typesetPromise();
+    MathJax.typesetPromise([cont]).catch(() => {});
 }
 
 async function loadCSVAndBuildFilters(url) {
@@ -448,12 +604,11 @@ async function loadCSVAndBuildFilters(url) {
     function getFichesConcours() {
         const concours = concoursSelect.value;
         if (!concours) return fiches;
-        return fiches.filter(f => f.concours === concours);
+        return fiches.filter(f => (f.concours || '') === concours);
     }
 
     function updateChapitreOptions() {
-        const fichesConcours = getFichesConcours();
-        const chapitreMap = extractChapitresMap(fichesConcours);
+        const chapitreMap = extractChapitresMap(getFichesConcours());
         populateChapitreSelect(chapitreMap);
         resetNotionSelect();
         return chapitreMap;
@@ -467,29 +622,21 @@ async function loadCSVAndBuildFilters(url) {
         let filtered = [...fiches];
 
         if (concours) {
-            filtered = filtered.filter(f => f.concours === concours);
+            filtered = filtered.filter(f => (f.concours || '') === concours);
         }
 
         if (chapitre) {
-            filtered = filtered.filter(fiche => {
-                if (!fiche.Chapitres) return false;
-                return fiche.Chapitres.split(';').some(entry => {
-                    const [chap] = entry.split(':');
-                    return chap && chap.trim() === chapitre;
-                });
-            });
+            filtered = filtered.filter(fiche =>
+                parseChapitres(fiche.Chapitres).some(item => item.chapitre === chapitre)
+            );
         }
 
         if (chapitre && notion) {
-            filtered = filtered.filter(fiche => {
-                if (!fiche.Chapitres) return false;
-                return fiche.Chapitres.split(';').some(entry => {
-                    const [chap, notions] = entry.split(':');
-                    if (!chap || !notions) return false;
-                    if (chap.trim() !== chapitre) return false;
-                    return notions.split(',').map(n => n.trim()).includes(notion);
-                });
-            });
+            filtered = filtered.filter(fiche =>
+                parseChapitres(fiche.Chapitres).some(item =>
+                    item.chapitre === chapitre && item.notions.includes(notion)
+                )
+            );
         }
 
         generateHTML(filtered);
@@ -504,8 +651,9 @@ async function loadCSVAndBuildFilters(url) {
 
     chapitreSelect.addEventListener('change', () => {
         const chapitre = chapitreSelect.value;
-        const fichesConcours = getFichesConcours();
-        const chapitreMap = extractChapitresMap(fichesConcours);
+        const chapitreMap = extractChapitresMap(getFichesConcours());
+
+        notionSelect.value = '';
 
         if (!chapitre) {
             resetNotionSelect();
@@ -514,7 +662,6 @@ async function loadCSVAndBuildFilters(url) {
         }
 
         populateNotionSelect(chapitreMap[chapitre] || []);
-        notionSelect.value = '';
         applyAllFilters();
     });
 
@@ -526,10 +673,15 @@ async function loadCSVAndBuildFilters(url) {
     applyAllFilters();
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-    loadCSVAndBuildFilters('fiches.csv');
+window.addEventListener('DOMContentLoaded', async () => {
+    try {
+        await loadCSVAndBuildFilters('fiches.csv');
+    } catch (err) {
+        const cont = document.getElementById('container');
+        cont.innerHTML = `<div class="empty-state">Erreur au chargement du site : ${escapeHTML(err.message)}</div>`;
+        console.error(err);
+    }
 });
 </script>
-
 </body>
 </html>
