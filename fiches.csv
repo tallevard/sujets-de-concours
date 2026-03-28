@@ -6,13 +6,13 @@ CCINP PSI,CCINP PSI 2023,Exercice 1,"§Fonctions de Bessel : $\forall x\in \mat
 On l’utilise pour retrouver l’expression classique des intégrale de Wallis.§","\item Montrer que $f$ est définie et de classe $\mathscr{C}^2$ sur $\mathbb R$ et en déduire qu’elle est solution de l’équation différentielle : $$xy’’+y’+xy=0.\qquad (E)$$
 \item Déterminer les solutions développables en série entière de $(E)$.
 \item Montrer que $f$ est développable en série entière et que ce DSE fait intervenir les intégrales de Wallis.
-\item En déduire une expression classique des intégrales de Wallis.",++++,très abordable,DS07 2526,,,"Equations différentielles : Recherche de solution sous forme des série entière ; 
+\item En déduire une expression classique des intégrales de Wallis.",++++,**,DS07 2526,,,"Equations différentielles : Recherche de solution sous forme des série entière ; 
 Intégrales à paramètres : Dérivation d’une intégrale à paramètre ;
 Séries Entières : Recherche de solution d’une équation différentielle sous forme des série entière ;
 Suites et séries de fonctions : Intégration terme à terme sur un segment, TITTIQ ;
 Thèmes classiques : Intégrales de Wallis "
 CCINP PSI,CCINP PSI 2023,Problème 1,§Marche aléatoire sur $\mathbb{Z}$.§,"\item Étude de la position d’une particule qui se promène sur $\mathbb{Z}$. \item Probabilité de retour à l’origine \item Équivalent du nombre moyen de retours à l’origine après $n$ étapes lorsque $n\to+\infty$.
-",++++,très abordable,DS07 2526,,,"Probabilités : loi binomiale, marche aléatoire, somme de variables aléatoires ;
+",++++,**,DS07 2526,,,"Probabilités : loi binomiale, marche aléatoire, somme de variables aléatoires ;
 Séries Entières : DSE de $(1+x)^{\alpha}$ pour ${\alpha}=1/2$ ou $-1/2$ ;
 Thèmes classiques : Équivalent de « n parmi 2n »."
 CCINP PSI,CCINP PSI 2023,Problème 2,"§Diagonalisation des matrices de Hurwitz à coefficients complexes.
@@ -20,7 +20,7 @@ Limites de puissances de matrices de rayon spectral strictement plus petit que 1
 Méthode itérative de Gauss-Seidel pour la résolution d’un système linéaire.§","\item Dans la première partie, on diagonalise de façon originale les matrices de Hurwitz à coefficients complexes.
 \item La partie 2 montre que si toutes les valeurs propres d’une matrice $A$ sont de module strictement inférieur à $1$, $A^k\underset{k\to+\infty}{\longrightarrow}0$. 
 \item Le sujet admet ce résultat classique : toute matrice à diagonale strictement dominante est inversible.
-\item Ensuite le sujet ",+++++,Abordable,DS07 2526,,,"Réduction : 
+\item Ensuite le sujet ",+++++,** à ***,DS07 2526,,,"Réduction : 
 Diagonalisation de matrices d’ordre $n$,
 manipulations sur le polynôme caractéristique, 
 théorème spectral ;
@@ -31,6 +31,8 @@ Centrale PSI,Centrale PSI 2023,,"- Calcul de l’intégrale de Gauss.
 - Raffinement de la formule de Stirling
 - Étude d’une marche aléatoire sur $\mathbb Z$ et de la probabilité de non retour à l’origine.
 - Loi de l’arcsinus","\item Sujet extrêmement intéressant, qui fait appel à une très large partie du programme, mais de difficulté assez élevée. Il vaut mieux avoir fait le problème 1 du sujet CCINP PSI 2023 avant celui-ci.
-\item Dbe
-
-",+++++,,,,,
+\item Partie 1 : très classique, calcul de l’intégrale de Gauss
+\item Partie 2 : début très classique sur la fonction Gamma, suite moins classique sur l’équivalent de Stirling. Très intéressant.
+\item Partie 3 : calcule de la probabilité de non retour à l’origine d’une marche aléatoire asymétrique
+\item Partie 4 : étude du dernier retour à l’origine d’une marche aléatoire symétrique. Plus difficile, mais toujours aussi intéressant.
+",+++++,** à ****,DS07 2526,https://drive.google.com/open?id=1XN7nEd_ylSAVckqnqz8f34VZGB8OkX2j&usp=drive_fs,,
